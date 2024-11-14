@@ -41,7 +41,7 @@ const TaskMain: React.FC = () => {
   // Filter and sort tasks based on search and sort selection
   const filteredTasks = tasks
     .filter((task) => task.title.toLowerCase().includes(search.toLowerCase()))
-    .sort((a, b) => {
+    .sort((a, _b) => {
       if (sort === '') return 0;
       if (sort === 'Low') return a.priority === 'Low' ? -1 : 1;
       if (sort === 'Medium') return a.priority === 'Medium' ? -1 : 1;
