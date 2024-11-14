@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { IoMdCheckbox } from 'react-icons/io';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import gsap from 'gsap';
 
 interface Task {
   id: number;
@@ -23,6 +24,25 @@ const TaskMain: React.FC = () => {
   });
   const [error, setError] = useState('');
 
+  // gsap animation
+  useEffect(() => {
+    const element = document.querySelector('.box');
+
+    if (element instanceof HTMLElement) {
+      gsap.fromTo(
+        element, 
+        {
+          opacity: 0,
+          x: -200,
+        },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 1,
+        }
+      );
+    }
+  }, [showModal]);
   // Load tasks from localStorage on initial load
   useEffect(() => {
     const storedTasks = localStorage.getItem('tasks');
@@ -74,7 +94,6 @@ const TaskMain: React.FC = () => {
 
   // Update the state and localStorage after task deletion
   setTasks(updatedTasks);
-
   // Save the updated tasks array to localStorage
   localStorage.setItem('tasks', JSON.stringify(updatedTasks));
   };
@@ -106,7 +125,7 @@ const TaskMain: React.FC = () => {
         {/* Add Task Button */}
         <button
           onClick={() => setShowModal(true)}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+          className="active:scale-95 duration-100 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
         >
           Add Task
         </button>
@@ -120,7 +139,7 @@ const TaskMain: React.FC = () => {
             className="bg-gray-100 border-2 rounded-md p-4 mb-4 flex flex-col gap-2"
           >
             {/* Title section */}
-            <div className="flex justify-between items-center">
+            <div className=" flex justify-between items-center">
               <h3 className="text-xl font-semibold">{task.title}</h3>
               <span className="flex justify-center items-center space-x-3">
                 <span
@@ -135,7 +154,7 @@ const TaskMain: React.FC = () => {
                   {task.priority}
                 </span>
                 <IoMdCheckbox
-                  className={`size-6 cursor-pointer ${task.selected ? 'text-blue-500' : 'text-gray-400'}`}
+                  className={`active:scale-95 duration-100 size-6 cursor-pointer ${task.selected ? 'text-blue-500' : 'text-gray-400'}`}
                   onClick={() => handleSelectTask(task.id)}
                 />
                 <FaRegTrashAlt
@@ -151,7 +170,7 @@ const TaskMain: React.FC = () => {
 
       {/* Add Task Modal */}
       {showModal && (
-        <div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div className="box rounded-md absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-white p-6 rounded-md shadow-lg w-full max-w-md">
             <h2 className="text-2xl font-semibold mb-4">Add New Task</h2>
             <input
@@ -183,13 +202,13 @@ const TaskMain: React.FC = () => {
                   setShowModal(false);
                   setError('');
                 }}
-                className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition"
+                className="px-4 py-2 active:scale-95 duration-100 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAddTask}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+                className="px-4 active:scale-95 duration-100 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
               >
                 Add Task
               </button>
