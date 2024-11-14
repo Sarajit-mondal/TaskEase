@@ -65,11 +65,18 @@ const TaskMain: React.FC = () => {
     setTasks(tasks.map((task) =>
       task.id === id ? { ...task, selected: !task.selected } : task
     ));
+
   };
 
   // Handle deleting a task
   const handleDeleteTask = (id: number) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+ const updatedTasks = tasks.filter((task) => task.id !== id);
+
+  // Update the state and localStorage after task deletion
+  setTasks(updatedTasks);
+
+  // Save the updated tasks array to localStorage
+  localStorage.setItem('tasks', JSON.stringify(updatedTasks));
   };
 
   return (
