@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import { IoMdCheckbox } from "react-icons/io";
+import { FaRegTrashAlt } from "react-icons/fa";
 // Types for Task
 interface Task {
   id: number;
@@ -18,6 +19,7 @@ const TaskMain: React.FC = () => {
   // Filter and sort tasks based on search and sort selection
   const filteredTasks = tasks
     .filter((task) => task.title.toLowerCase().includes(search.toLowerCase()))
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .sort((a, b) => {
       if (sort === '') return 0;
       if (sort === 'Low') return a.priority === 'Low' ? -1 : 1;
@@ -72,10 +74,12 @@ const TaskMain: React.FC = () => {
             key={task.id}
             className="bg-white shadow-sm rounded-md p-4 mb-4 flex flex-col gap-2"
           >
-            <h3 className="text-lg font-semibold">{task.title}</h3>
-            <p className="text-gray-600">{task.description}</p>
-            <span
-              className={`px-2 py-1 rounded-full text-white ${
+          {/* title section */}
+          <div className='flex justify-between items-center'>
+              <h3 className="text-lg font-semibold">{task.title}</h3>
+              <span className='flex justify-center items-center space-x-3'>
+                    <span
+              className={`px-2 py-1 rounded-lg text-white ${
                 task.priority === 'Low'
                   ? 'bg-green-500'
                   : task.priority === 'Medium'
@@ -85,6 +89,13 @@ const TaskMain: React.FC = () => {
             >
               {task.priority}
             </span>
+             <IoMdCheckbox  className='size-7 cursor-pointer'/>
+             < FaRegTrashAlt  className='size-5 cursor-pointer text-red-500 active:scale-95 duration-100'/>
+              </span>
+          </div>
+      
+            <p className="text-gray-600">{task.description}</p>
+         
           </div>
         ))}
       </div>
